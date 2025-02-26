@@ -44,10 +44,53 @@ public class Dao {
 
     private static void iniMapaItems() {
         mapaItems = new HashMap<>();
+        for (String item : ITEMS) {
+            String[] partes = item.split(",");
+
+            // variables como en el construcor de item,
+            long id = Long.parseLong(partes[0]);
+            String nombre = partes[1];
+            String info = partes[2];
+            int precioIncial = Integer.parseInt(partes[3]);
+            String url = partes[4];
+            String nombreUsuario = partes[5];
+            int estado = Integer.parseInt(partes[6]);
+            boolean historico = Boolean.parseBoolean(partes[7]);
+
+            // se usa el parse para pasar string al tipo necesario.
+            // se crean objetos item
+
+            Item items = new Item(id, nombre, info, precioIncial, url, nombreUsuario, estado, historico);
+            mapaItems.put(id, items);
+        }
+    }
+
 
     private static void iniMapaPujas() {
         mapaPujas = new HashMap<>();
+        for (String itemPuja : PUJAS){
+            String[] partes = itemPuja.split(",");
+
+            //variables segun constructor de clase puja
+            long idItem = Long.parseLong(partes[0]);
+            String nombreUsuario = partes[1];
+            int precio = Integer.parseInt(partes[2]);
+            String instanteTiempo = partes[3];
+
+
+            // este metodo se hace que si ya tenemos el id, significa que quieremos añadir la puja a la lista y si no lo tenemos pues creamos con un id nuevo
+            Puja objPuja = new Puja(idItem, nombreUsuario, precio, instanteTiempo);
+                if (mapaPujas.containsKey(idItem)){
+                    mapaPujas.get(idItem).add(objPuja);
+                }
+                else{
+                    mapaPujas.put(idItem, new ArrayList<>());
+                }
+        }
     }
+
+
+
     //endregion
 
     //region Usuarios
