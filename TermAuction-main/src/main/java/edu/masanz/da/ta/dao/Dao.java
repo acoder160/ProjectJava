@@ -95,24 +95,39 @@ public class Dao {
 
     //region Usuarios
     public static boolean autenticar(String nombreUsuario, String password) {
-//        return password.equals("1234");
-        // TODO 04 autenticar
-        return false;
+        Usuario usuario = mapaUsuarios.get(nombreUsuario);
+        if (usuario == null){
+            return false;
+        }
+        else {
+            return password.equals("1234");
+        }
+
     }
 
     public static boolean esAdmin(String nombreUsuario) {
-//        return nombreUsuario.equalsIgnoreCase("Admin");
-        // TODO 05 esAdmin
-        return false;
+        return nombreUsuario.equalsIgnoreCase("Admin");
     }
 
     public static List<Usuario> obtenerUsuarios() {
-        // TODO 06 obtenerUsuarios
-        return null;
+        return new ArrayList<>(mapaUsuarios.values());
     }
 
     public static boolean crearUsuario(String nombre, String password, boolean esAdmin) {
-        // TODO 07 crearUsuario
+        if(mapaUsuarios.containsKey(nombre)){
+            return false; //retornamos false ya que el usuario ya existe en la base
+        }
+        String rol;
+        if (esAdmin){
+            rol = "admin";
+        }
+        else{
+            rol = "user";
+        }
+
+        Usuario nuevoUsuario = new Usuario(nombre, password, rol);
+        mapaUsuarios.put(nombre, nuevoUsuario);
+
         return true;
     }
 
